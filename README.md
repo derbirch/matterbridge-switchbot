@@ -27,10 +27,18 @@ If you like this project and find it useful, please consider giving it a star on
 - Pre-configured TypeScript, ESLint, Prettier, Jest and Vitest.
 - Example project structure for Accessory and Dynamic platforms.
 - Ready for customization for your own plugin.
-- The dev branch of Matterbridge is already build and installed into the Dev Container and linked to the plugin.
 - The project has an already configured Jest / Vitest test unit (with 100% coverage) that you can expand while you add your own plugin logic.
-- It has a workflow configured to run on push and pull request that build, lint and test the plugin on node 20, 22 and 24 with ubuntu, macOS and windows.
-- It also has a workflow configured to publish on npm. Add your NPM_TOKEN to the repository secrets.
+
+## Available workflows
+
+The project has the following already configured workflows:
+
+- build-matterbridge-plugin.yml: run on push and pull request and build, lint and test the plugin on node 20, 22 and 24 with ubuntu, macOS and windows.
+- publish-matterbridge-plugin.yml: publish on npm when you create a new release in GitHub. Add your NPM_TOKEN to the repository secrets.
+- publish-matterbridge-plugin-dev-daily-from-dev.yml: publish a dev on npm from main branch every day at midnight UTC if there is a new commit. Add your NPM_TOKEN to the repository secrets.
+- publish-matterbridge-plugin-dev-daily-from-main.yml: publish a dev on npm from dev branch every day at midnight UTC if there is a new commit. Add your NPM_TOKEN to the repository secrets.
+- codeql.yml: run CodeQL from the main branch on each push and pull request.
+- codecov.yml: run CodeCov from the main branch on each push and pull request. You need a codecov account and add CODECOV_TOKEN to the repository secrets.
 
 ## Getting Started
 
@@ -38,13 +46,14 @@ If you like this project and find it useful, please consider giving it a star on
 2. Clone it locally and open the cloned folder project with [VS Code](https://code.visualstudio.com/). If you have docker or docker desktop, just run `code .`.
 3. When prompted, reopen in the devcontainer. VS Code will automatically build and start the development environment with all dependencies installed.
 4. Update the code and configuration files as needed for your plugin.
-5. Follow the instructions in the matterbridge [README-DEV](https://github.com/Luligu/matterbridge/blob/dev/README-DEV.md) and comments in module.ts to implement your plugin logic.
+5. Follow the instructions in the matterbridge [README-DEV](https://github.com/Luligu/matterbridge/blob/main/README-DEV.md) and comments in module.ts to implement your plugin logic.
 
-## Using the Devcontainer
+## Using the Dev Container
 
 - Docker Desktop or Docker Engine are required to use the Dev Container.
 - Devcontainer works correctly on Linux, macOS, Windows, WSL2.
 - The devcontainer provides Node.js, npm, TypeScript, ESLint, Prettier, Jest, Vitest and other tools and extensions pre-installed and configured.
+- The dev branch of Matterbridge is already build and installed into the Dev Container and linked to the plugin.
 - The devcontainer is optimized using named mounts for node_modules and matterbridge.
 - You can run, build, and test your plugin directly inside the container.
 - To open a terminal in the devcontainer, use the VS Code terminal after the container starts.
