@@ -1,0 +1,36 @@
+{
+  "pluginAlias": "SwitchBot",
+  "pluginType": "platform",
+  "schema": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string",
+        "title": "SwitchBot API Token",
+        "required": true,
+        "form": true
+      },
+      "secret": {
+        "type": "string",
+        "title": "SwitchBot API Secret",
+        "required": true,
+        "form": true
+      },
+      "pollInterval": {
+        "type": "number",
+        "title": "Polling Interval (seconds)",
+        "default": 30,
+        "minimum": 5,
+        "form": true
+      },
+      "baseUrl": {
+        "type": "string",
+        "title": "SwitchBot API Base URL",
+        "default": "https://api.switch-bot.com",
+        "form": true
+      }
+    }
+  }
+}
+
+
