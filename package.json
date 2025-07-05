@@ -1,9 +1,9 @@
 {
-  "name": "matterbridge-plugin-template",
+  "name": "matterbridge-switchbot",
   "version": "1.0.0",
-  "description": "Matterbridge Template Plugin",
+  "description": "Matterbridge SwitchBot Plugin",
   "author": "https://github.com/Luligu",
-  "homepage": "https://github.com/Luligu/matterbridge-plugin-template/blob/main/README.md",
+  "homepage": "https://github.com/Luligu/matterbridge-switchbot/blob/main/README.md",
   "license": "Apache-2.0",
   "type": "module",
   "main": "dist/module.js",
@@ -13,10 +13,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Luligu/matterbridge-plugin-template.git"
+    "url": "git+https://github.com/Luligu/matterbridge-switchbot.git"
   },
   "bugs": {
-    "url": "https://github.com/Luligu/matterbridge-plugin-template/issues"
+    "url": "https://github.com/Luligu/matterbridge-switchbot/issues"
   },
   "funding": {
     "type": "buymeacoffee",
@@ -25,7 +25,7 @@
   "keywords": [
     "matterbridge",
     "plugin",
-    "template",
+    "switchbot",
     "matter.js",
     "matter-node.js",
     "matter",
@@ -39,8 +39,7 @@
     "google-home",
     "alexa",
     "homeassistant",
-    "smartthings",
-    "ewelink"
+    "smartthings"
   ],
   "scripts": {
     "start": "matterbridge",
@@ -96,8 +95,12 @@
     "matterbridge:list": "matterbridge -list"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
     "node-ansi-logger": "3.1.1",
     "node-persist-manager": "2.0.0"
+  },
+  "peerDependencies": {
+    "matterbridge": ">=3.0.7"
   },
   "devDependencies": {
     "@eslint/js": "9.30.0",
@@ -114,6 +117,7 @@
     "eslint-plugin-prettier": "5.5.1",
     "eslint-plugin-promise": "7.2.1",
     "jest": "30.0.3",
+    "matterbridge": "^3.1.1",
     "npm-check-updates": "18.0.1",
     "prettier": "3.6.2",
     "shx": "0.4.0",
