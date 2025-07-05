@@ -183,7 +183,7 @@ npm test
 
 ```
 src/
-├── module.ts              # Main plugin module
+├── index.ts               # Main plugin module (formerly module.ts)
 ├── switchbot-api.ts       # SwitchBot API client
 └── device-manager.ts      # Device discovery and management
 
@@ -275,11 +275,17 @@ This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENS
 
 ## Changelog
 
-### v1.0.2
+### v1.0.3
+- Renamed `module.ts` to `index.ts` and updated `package.json` to reflect this change, which might help with Matterbridge UI discovery.
 - Added UI configuration schema for Matterbridge web interface
 - Fixed TypeScript compilation issues
 - Updated repository URLs and package metadata
 - Improved error handling and logging
+
+### v1.0.2
+- Fixed plugin loading mechanism
+- Updated dependencies and peer dependencies
+- Improved installation instructions
 
 ### v1.0.1
 - Fixed plugin loading mechanism
