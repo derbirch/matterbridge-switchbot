@@ -9,6 +9,7 @@ A Matterbridge plugin that integrates SwitchBot devices with the Matter protocol
 - **Matter Protocol Integration**: Exposes SwitchBot devices as Matter-compatible devices
 - **Real-time Status Updates**: Polls device status and updates Matter attributes accordingly
 - **Secure Authentication**: Implements SwitchBot's HMAC-SHA256 signature authentication
+- **UI Configuration**: Configure through Matterbridge's web interface
 - **TypeScript**: Fully typed for better development experience
 
 ## Supported Devices
@@ -33,14 +34,26 @@ A Matterbridge plugin that integrates SwitchBot devices with the Matter protocol
 
 ## Installation
 
-**Important**: This plugin is designed to be linked with your Matterbridge installation, not installed globally via `npm install -g`.
+### Method 1: Install from npm (Recommended)
+
+1. **Install the plugin**:
+   ```bash
+   npm install -g matterbridge-switchbot
+   ```
+
+2. **Add the plugin to Matterbridge**:
+   - Open the Matterbridge web interface
+   - Go to **Plugins** → **Add Plugin**
+   - Search for "matterbridge-switchbot" or add it manually
+   - Click **Install**
+
+### Method 2: Install from source
 
 1. **Clone this repository**:
    ```bash
-   git clone https://github.com/Luligu/matterbridge-plugin-template.git matterbridge-switchbot-plugin
-   cd matterbridge-switchbot-plugin
+   git clone https://github.com/derbirch/matterbridge-switchbot.git
+   cd matterbridge-switchbot
    ```
-   (Note: The repository name is `matterbridge-plugin-template`, but you should rename the cloned directory to `matterbridge-switchbot-plugin` or similar for clarity.)
 
 2. **Install dependencies**:
    ```bash
@@ -49,22 +62,18 @@ A Matterbridge plugin that integrates SwitchBot devices with the Matter protocol
 
 3. **Build the plugin**:
    ```bash
-   npm run build
+   npx tsc
    ```
 
 4. **Link the plugin to your Matterbridge installation**:
    ```bash
    npm link
-   npm link matterbridge
    ```
-   This will create a symbolic link from your plugin directory to the global `node_modules` directory, and then link the `matterbridge` package from your global `node_modules` to your plugin.
 
 5. **Add the plugin to Matterbridge**:
-   Navigate to your Matterbridge installation directory and run:
    ```bash
-   matterbridge -add /path/to/your/matterbridge-switchbot-plugin
+   matterbridge -add /path/to/your/matterbridge-switchbot
    ```
-   Replace `/path/to/your/matterbridge-switchbot-plugin` with the actual path to the cloned and built plugin directory.
 
 ## Configuration
 
@@ -78,6 +87,20 @@ A Matterbridge plugin that integrates SwitchBot devices with the Matter protocol
 
 ### Plugin Configuration
 
+#### Via Matterbridge Web Interface (Recommended)
+
+1. Open the Matterbridge web interface
+2. Go to **Plugins** → **matterbridge-switchbot**
+3. Click **Settings** or **Configure**
+4. Fill in the configuration form:
+   - **SwitchBot API Token**: Your SwitchBot API token
+   - **SwitchBot API Secret**: Your SwitchBot API secret
+   - **Polling Interval**: How often to check device status (default: 30 seconds)
+   - **SwitchBot API Base URL**: API endpoint (default: https://api.switch-bot.com)
+5. Click **Save**
+
+#### Via Configuration File (Alternative)
+
 Add the following configuration to your Matterbridge config file:
 
 ```json
@@ -87,8 +110,7 @@ Add the following configuration to your Matterbridge config file:
   "token": "your-switchbot-token",
   "secret": "your-switchbot-secret",
   "baseUrl": "https://api.switch-bot.com",
-  "pollInterval": 30,
-  "unregisterOnShutdown": false
+  "pollInterval": 30
 }
 ```
 
@@ -96,20 +118,17 @@ Add the following configuration to your Matterbridge config file:
 
 | Option | Type | Required | Default | Description |
 |--------|------|----------|---------|-------------|
-| `name` | string | Yes | - | Plugin name (use "SwitchBot") |
-| `type` | string | Yes | - | Platform type (use "DynamicPlatform") |
 | `token` | string | Yes | - | Your SwitchBot API token |
 | `secret` | string | Yes | - | Your SwitchBot API secret |
 | `baseUrl` | string | No | `https://api.switch-bot.com` | SwitchBot API base URL |
-| `pollInterval` | number | No | 30 | Status polling interval in seconds |
-| `unregisterOnShutdown` | boolean | No | false | Unregister devices on shutdown |
+| `pollInterval` | number | No | 30 | Status polling interval in seconds (minimum: 5) |
 
 ## Usage
 
 1. **Start Matterbridge**: The plugin will automatically discover your SwitchBot devices
 2. **Device Registration**: Devices will be registered with Matter and appear in your smart home app
 3. **Control Devices**: Use your Matter-compatible smart home platform to control devices
-4. **Status Updates**: Device status is automatically synchronized every 30 seconds (configurable)
+4. **Status Updates**: Device status is automatically synchronized based on the polling interval
 
 ## Device Mapping
 
@@ -147,20 +166,17 @@ The plugin implements SwitchBot's secure authentication using:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/derbirch/matterbridge-switchbot.git
 cd matterbridge-switchbot
 
 # Install dependencies
 npm install
 
 # Build the project
-npm run build
+npx tsc
 
-# Run tests
+# Run tests (if available)
 npm test
-
-# Link with Matterbridge for development
-npm link matterbridge
 ```
 
 ### Project Structure
@@ -171,9 +187,7 @@ src/
 ├── switchbot-api.ts       # SwitchBot API client
 └── device-manager.ts      # Device discovery and management
 
-test/
-└── module.test.ts         # Unit tests
-
+matterbridge-switchbot.schema.json  # UI configuration schema
 dist/                      # Compiled JavaScript output
 ```
 
@@ -194,21 +208,31 @@ npm run test:watch         # Run tests in watch mode
 1. **"SwitchBot API not initialized"**
    - Verify your token and secret are correct
    - Check that both token and secret are provided in configuration
+   - Ensure you've enabled developer options in the SwitchBot app
 
 2. **"Failed to get devices"**
    - Ensure your SwitchBot account has API access enabled
    - Verify your token hasn't expired
    - Check network connectivity
+   - Verify the API base URL is correct
 
 3. **Devices not appearing in Matter app**
    - Restart Matterbridge after configuration changes
    - Check Matterbridge logs for device registration errors
    - Ensure devices are online in the SwitchBot app
+   - Verify the plugin is properly installed and configured
 
 4. **Commands not working**
    - Verify device is online and responsive in SwitchBot app
    - Check if device type is supported
    - Review plugin logs for command errors
+   - Ensure polling interval is not too aggressive
+
+5. **Plugin not showing in Matterbridge UI**
+   - Ensure the plugin is properly installed (`npm install -g matterbridge-switchbot`)
+   - Check that the schema file is included in the package
+   - Restart Matterbridge after installation
+   - Verify Matterbridge version compatibility (>= 3.0.7)
 
 ### Debug Mode
 
@@ -222,6 +246,14 @@ Enable debug logging in your Matterbridge configuration:
   ...
 }
 ```
+
+### Logs
+
+Check Matterbridge logs for detailed information:
+- Plugin initialization messages
+- Device discovery results
+- API communication status
+- Error messages and stack traces
 
 ## Contributing
 
@@ -237,11 +269,22 @@ This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENS
 
 ## Support
 
-- **Issues**: Report bugs and feature requests on GitHub
-- **Documentation**: Check the Matterbridge documentation for general setup
-- **SwitchBot API**: Refer to the official SwitchBot API documentation
+- **Issues**: Report bugs and feature requests on [GitHub Issues](https://github.com/derbirch/matterbridge-switchbot/issues)
+- **Documentation**: Check the [Matterbridge documentation](https://github.com/Luligu/matterbridge) for general setup
+- **SwitchBot API**: Refer to the [official SwitchBot API documentation](https://github.com/OpenWonderLabs/SwitchBotAPI)
 
 ## Changelog
+
+### v1.0.2
+- Added UI configuration schema for Matterbridge web interface
+- Fixed TypeScript compilation issues
+- Updated repository URLs and package metadata
+- Improved error handling and logging
+
+### v1.0.1
+- Fixed plugin loading mechanism
+- Updated dependencies and peer dependencies
+- Improved installation instructions
 
 ### v1.0.0
 - Initial release
